@@ -24,4 +24,13 @@ export default defineConfig({
       "@server": path.resolve(__dirname, "./src/server"),
     },
   },
+  server: {
+    proxy: {
+      "/api": {
+        target: "https://open-source-games.com",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 });

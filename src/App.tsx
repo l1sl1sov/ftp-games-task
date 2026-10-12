@@ -1,14 +1,24 @@
 import { Routes, Route } from "react-router";
 import { BrowserRouter } from "react-router";
-import Home from "@/pages/Home";
+import HomePage from "@/pages/HomePage";
+import { MainLayout } from "@/components/UI/MainLayout";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { GamePage } from "@/pages/GamePage";
+
+export const queryClient = new QueryClient();
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/games/:slug" element={<GamePage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 }
 
