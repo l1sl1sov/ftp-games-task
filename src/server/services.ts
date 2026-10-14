@@ -1,7 +1,12 @@
 import { api } from "@/server/base";
 
-export const getGamesService = async () => {
-  const response = await api.get("games");
-  console.log(response.data);
+interface FiltersI {
+  page: number;
+  limit: number;
+}
+
+export const getGamesService = async ({ page, limit }: FiltersI) => {
+  const response = await api.get(`games?page=${page}&pageSize=${limit}`);
+
   return response.data;
 };
