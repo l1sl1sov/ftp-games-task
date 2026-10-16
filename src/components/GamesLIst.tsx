@@ -1,6 +1,7 @@
 import { useFetchGames } from "@/hooks/useFetchGames";
 import { Link } from "react-router";
-import { Typography, Spin, Empty, Tag, Badge } from "antd";
+import { Typography, Empty, Tag, Badge } from "antd";
+import { LoadingSpin } from "@/components/UI/LoadingSpin";
 import {
   CalendarOutlined,
   GlobalOutlined,
@@ -15,6 +16,7 @@ export const GamesList = () => {
   const currentPage = usePageSelector();
   const setPage = useSetPageSelector();
 
+  //i use total games and pagesize for pagination ant design component
   const {
     allGames,
     isLoadingAllGames,
@@ -24,18 +26,15 @@ export const GamesList = () => {
   } = useFetchGames();
 
   if (isLoadingAllGames) {
-    return (
-      <div className="flex justify-center items-center py-24 w-full">
-        <Spin size="large" description="Загрузка игр..." />
-      </div>
-    );
+    return <LoadingSpin desc="games" />;
   }
 
+  //preventive return
   if (!allGames || allGames.length === 0) {
     return (
       <div className="flex justify-center items-center py-24 w-full">
         <Empty
-          description="Игры не найдены"
+          description="Games not found"
           image={Empty.PRESENTED_IMAGE_SIMPLE}
         />
       </div>

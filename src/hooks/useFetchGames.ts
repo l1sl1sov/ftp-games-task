@@ -29,8 +29,8 @@ export const useFetchGames = () => {
 
   return {
     allGames: data?.games || [],
-    totalGames: data?.total || 0,
-    pageSize: data?.pageSize || constPageSize,
+    totalGames: data?.total || 0, //meta
+    pageSize: data?.pageSize || constPageSize, //meta
     isLoadingAllGames,
     isFetchingAllGames,
   };
