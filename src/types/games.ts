@@ -1,9 +1,11 @@
 import type { URLType } from "@/types/base";
 import type { DateType } from "@/types/base";
 
+export type Slug = string;
+
 export interface GameView {
   id: number;
-  slug: string;
+  slug: Slug;
   title: string;
   description: string;
   repoUrl: URLType;
@@ -18,4 +20,28 @@ export interface GameView {
   topics: string[];
   isMultiplayer: boolean;
   platforms: string[];
+}
+
+export interface GameData {
+  id: string;
+  title: string;
+  slug: string;
+  repoUrl: string | null;
+  description: string | null;
+  stars: number;
+  language: string | null;
+  genre: string | null;
+  topics: string[] | null;
+  lastCommitAt: string | null;
+  createdAt: string;
+  homepage: string | null;
+  forks: number;
+  openIssues: number;
+  isArchived: boolean;
+  category: string | null;
+  isMultiplayer: boolean;
+  license: string | null;
+  platforms: string[] | null;
+  latestRelease: string | null;
+  downloadCount: number;
 }

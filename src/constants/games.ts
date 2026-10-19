@@ -1,3 +1,3 @@
 export const GAMES_CONSTANTS = {
-  PAGE_SIZE: 10,
+  PAGE_SIZE: 20,
 } as const;
