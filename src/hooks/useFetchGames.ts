@@ -1,37 +1,34 @@
+import { useMemo } from "react";
 import { getGamesService } from "@/server/services";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { APP_CONFIG } from "@/constants/base";
-import { usePageSelector } from "@/store/useFiltersStore";
-import { GAMES_CONSTANTS } from "@/constants/games";
+import { useFiltersStore } from "@/store/useFiltersStore";
 
 export const useFetchGames = () => {
-  const page = usePageSelector();
-  const constPageSize = GAMES_CONSTANTS.PAGE_SIZE;
+  const { filters } = useFiltersStore();
 
+  // automatically triggers refetching when filters inside store change
   const {
-    data,
+    data: rawResponse,
     isLoading: isLoadingAllGames,
     isFetching: isFetchingAllGames,
   } = useQuery({
-    queryKey: ["games", { page, limit: constPageSize }],
-    queryFn: () => getGamesService({ page: page, limit: constPageSize }),
+    queryKey: ["games", filters],
+    queryFn: () => getGamesService(filters),
     placeholderData: keepPreviousData,
     staleTime: APP_CONFIG.STALE_TIME_MS,
-
-    select: (rawResponse) => {
-      return {
-        games: rawResponse?.data?.games || [],
-        total: rawResponse?.meta?.total || 0,
-        pageSize: rawResponse?.meta?.pageSize || constPageSize,
-      };
-    },
   });
 
-  return {
-    allGames: data?.games || [],
-    totalGames: data?.total || 0, //meta
-    pageSize: data?.pageSize || constPageSize, //meta
-    isLoadingAllGames,
-    isFetchingAllGames,
-  };
+  // stabilize data structure and fallback defaults to prevent redundant re-renders
+  const result = useMemo(() => {
+    return {
+      allGames: rawResponse?.data?.games || [],
+      totalGames: rawResponse?.meta?.total || 0,
+      pageSize: rawResponse?.meta?.pageSize || filters.pageSize,
+      isLoadingAllGames,
+      isFetchingAllGames,
+    };
+  }, [rawResponse, filters.pageSize, isLoadingAllGames, isFetchingAllGames]);
+
+  return result;
 };

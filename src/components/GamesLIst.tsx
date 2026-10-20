@@ -8,13 +8,15 @@ import {
   ArrowRightOutlined,
 } from "@ant-design/icons";
 import type { GameView } from "@/types/games";
-import { useSetPageSelector } from "@/store/useFiltersStore";
-import { Pagination } from "antd";
 import { usePageSelector } from "@/store/useFiltersStore";
+import { useSetFilter } from "@/store/useFiltersStore";
+import { Pagination } from "antd";
 
 export const GamesList = () => {
   const currentPage = usePageSelector();
-  const setPage = useSetPageSelector();
+  const setFilter = useSetFilter();
+
+  const setPage = (pageNumber: number) => setFilter("page", pageNumber);
 
   //i use total games and pagesize for pagination ant design component
   const {

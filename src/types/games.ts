@@ -45,3 +45,20 @@ export interface GameData {
   latestRelease: string | null;
   downloadCount: number;
 }
+
+export interface GameFilters {
+  page: number;
+  pageSize: number;
+  sort: "stars" | "lastCommit" | "createdAt" | "title" | "downloadCount";
+  order: "asc" | "desc";
+  genre?: string;
+  language?: string;
+  platform?: string;
+}
+
+export interface CategoryItem {
+  slug: string;
+  title: string;
+  description?: string;
+  count: number;
+}

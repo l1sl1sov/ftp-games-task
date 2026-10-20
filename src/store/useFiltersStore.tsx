@@ -1,23 +1,61 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import type { GameFilters } from "@/types/games";
+import { GAMES_CONSTANTS } from "@/constants/games";
 
 interface FilterStoreI {
-  page: number;
-  setPage: (newPage: number) => void;
+  filters: GameFilters;
+  setFilter: <K extends keyof GameFilters>(
+    key: K,
+    value: GameFilters[K],
+  ) => void;
+  resetFilters: () => void;
 }
+
+const initialFilters: GameFilters = {
+  page: 1,
+  pageSize: GAMES_CONSTANTS.PAGE_SIZE,
+  sort: "stars",
+  order: "desc",
+};
 
 export const useFiltersStore = create<FilterStoreI>()(
   persist(
     (set) => ({
-      page: 1,
-      setPage: (newPage: number) => {
-        set((state) => ({ ...state, page: newPage }));
-      },
+      filters: initialFilters,
+
+      setFilter: (key, value) =>
+        set((state) => {
+          const newFilters = { ...state.filters, [key]: value };
+
+          // remove empty fields except system pagination or sorting params
+          if (
+            (value === undefined || value === null || value === "") &&
+            !["page", "pageSize", "sort", "order"].includes(key)
+          ) {
+            delete newFilters[key];
+          }
+
+          return { filters: newFilters };
+        }),
+
+      resetFilters: () => set({ filters: initialFilters }),
     }),
-    { name: "games_pagination_state" },
+    {
+      name: "games_filters_state",
+    },
   ),
 );
 
-export const usePageSelector = () => useFiltersStore((state) => state.page);
-export const useSetPageSelector = () =>
-  useFiltersStore((state) => state.setPage);
+export const useGameFilters = () => useFiltersStore((state) => state.filters);
+
+export const usePageSelector = () =>
+  useFiltersStore((state) => state.filters.page);
+export const usePageSizeSelector = () =>
+  useFiltersStore((state) => state.filters.pageSize);
+export const useSortSelector = () =>
+  useFiltersStore((state) => state.filters.sort);
+
+export const useSetFilter = () => useFiltersStore((state) => state.setFilter);
+export const useResetFilters = () =>
+  useFiltersStore((state) => state.resetFilters);
