@@ -26,12 +26,22 @@ export const useFiltersStore = create<FilterStoreI>()(
 
       setFilter: (key, value) =>
         set((state) => {
-          const newFilters = { ...state.filters, [key]: value };
+          const isResetPageRequired = ![
+            "page",
+            "pageSize",
+            "sort",
+            "order",
+          ].includes(key as string);
 
-          // remove empty fields except system pagination or sorting params
+          const newFilters = {
+            ...state.filters,
+            [key]: value,
+            ...(isResetPageRequired ? { page: 1 } : {}),
+          };
+
           if (
             (value === undefined || value === null || value === "") &&
-            !["page", "pageSize", "sort", "order"].includes(key)
+            !["page", "pageSize", "sort", "order"].includes(key as string)
           ) {
             delete newFilters[key];
           }
@@ -48,14 +58,12 @@ export const useFiltersStore = create<FilterStoreI>()(
 );
 
 export const useGameFilters = () => useFiltersStore((state) => state.filters);
-
 export const usePageSelector = () =>
   useFiltersStore((state) => state.filters.page);
 export const usePageSizeSelector = () =>
   useFiltersStore((state) => state.filters.pageSize);
 export const useSortSelector = () =>
   useFiltersStore((state) => state.filters.sort);
-
 export const useSetFilter = () => useFiltersStore((state) => state.setFilter);
 export const useResetFilters = () =>
   useFiltersStore((state) => state.resetFilters);

@@ -1,5 +1,6 @@
 import type { URLType } from "@/types/base";
 import type { DateType } from "@/types/base";
+import { GAMES_CONSTANTS } from "@/constants/games";
 
 export type Slug = string;
 
@@ -53,7 +54,7 @@ export interface GameFilters {
   order: "asc" | "desc";
   genre?: string;
   language?: string;
-  platform?: string;
+  engine?: string;
 }
 
 export interface CategoryItem {
@@ -61,4 +62,18 @@ export interface CategoryItem {
   title: string;
   description?: string;
   count: number;
+}
+
+export type GameFilter = (typeof GAMES_CONSTANTS.FILTER_BY)[number];
+
+export type GameSortField =
+  (typeof GAMES_CONSTANTS.SORT_OPTIONS)[number]["value"];
+
+export interface GameFilters {
+  page: number;
+  pageSize: number;
+  sort: GameSortField;
+  order: "asc" | "desc";
+  genre?: string;
+  language?: string;
 }

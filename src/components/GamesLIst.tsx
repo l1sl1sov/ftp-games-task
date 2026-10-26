@@ -12,11 +12,16 @@ import { usePageSelector } from "@/store/useFiltersStore";
 import { useSetFilter } from "@/store/useFiltersStore";
 import { Pagination } from "antd";
 
+const dateFormatter = new Intl.DateTimeFormat("ru-RU");
+
 export const GamesList = () => {
   const currentPage = usePageSelector();
   const setFilter = useSetFilter();
 
-  const setPage = (pageNumber: number) => setFilter("page", pageNumber);
+  const setPage = (pageNumber: number) => {
+    setFilter("page", pageNumber);
+    window.scrollTo({ top: 0, behavior: "smooth" }); //scroll to top when page changes
+  };
 
   //i use total games and pagesize for pagination ant design component
   const {
@@ -43,19 +48,26 @@ export const GamesList = () => {
     );
   }
 
+  //common function for top and bottom pagination
+  const renderPagination = () => (
+    <div className="flex justify-center mt-2 w-full">
+      <Pagination
+        current={currentPage}
+        total={totalGames}
+        pageSize={pageSize}
+        showQuickJumper={true}
+        showSizeChanger={false}
+        pageSizeOptions={[]}
+        disabled={isFetchingAllGames}
+        onChange={(page) => setPage(page)}
+      />
+    </div>
+  );
+
   return (
     <div className="w-full flex flex-col gap-6">
-      <div className="flex justify-center mt-2 w-full">
-        <Pagination
-          current={currentPage}
-          total={totalGames}
-          pageSize={pageSize}
-          showQuickJumper={true}
-          showSizeChanger={false}
-          disabled={isFetchingAllGames}
-          onChange={(page) => setPage(page)}
-        />
-      </div>
+      {renderPagination()}
+
       <ul className="list-none p-0 m-0 flex flex-col gap-4 w-full">
         {allGames.map((game: GameView) => (
           <li key={game.id} className="w-full">
@@ -98,7 +110,7 @@ export const GamesList = () => {
                   <span className="flex items-center gap-1.5 text-gray-600">
                     <CalendarOutlined className="text-gray-400" />
                     {game.createdAt
-                      ? new Date(game.createdAt).toLocaleDateString("ru-RU")
+                      ? dateFormatter.format(new Date(game.createdAt))
                       : "—"}
                   </span>
 
@@ -126,6 +138,8 @@ export const GamesList = () => {
           </li>
         ))}
       </ul>
+
+      {renderPagination()}
     </div>
   );
 };

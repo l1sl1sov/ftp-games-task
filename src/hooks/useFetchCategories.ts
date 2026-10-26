@@ -18,11 +18,13 @@ export const useFetchCategories = (type: string) => {
     return response.data.categories;
   }, []);
 
-  return useQuery({
+  const { data } = useQuery({
     queryKey: ["categories", type],
     queryFn: () => getCategories(type),
     enabled: Boolean(type),
     select: selectFn,
     staleTime: 5 * 60 * 1000,
   });
+
+  return { data };
 };
