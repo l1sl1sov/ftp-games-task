@@ -114,7 +114,8 @@ export const GamesList = () => {
                       : "—"}
                   </span>
 
-                  {game.genre && (
+                  {/* ИЗМЕНЕНО ТОЛЬКО ТУТ */}
+                  {game.genre && game.genre !== "null" && (
                     <Tag
                       color="default"
                       className="m-0 bg-gray-50 border-gray-200 text-gray-600 font-medium px-2.5 py-0.5 rounded-md"
