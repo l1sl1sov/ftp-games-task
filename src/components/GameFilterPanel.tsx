@@ -28,11 +28,13 @@ export const GameFilterPanel = () => {
   };
 
   return (
-    <Card className="bg-white rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.06)] border border-[#f0f0f0] [&>.ant-card-body]:p-4">
+    <Card className="bg-white dark:bg-zinc-900 rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.06)] border border-slate-100 dark:border-zinc-800 [&>.ant-card-body]:p-4 transition-colors">
       <Space size="middle" wrap className="w-full justify-between">
         <Space size="middle" wrap>
           <Space size="small">
-            <span className="text-[#000000a6] font-medium">Sort by:</span>
+            <span className="text-slate-600 dark:text-zinc-400 font-medium transition-colors">
+              Sort by:
+            </span>
             <Select
               value={currentSort}
               onChange={(value) => setFilter("sort", value)}

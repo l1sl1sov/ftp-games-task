@@ -33,7 +33,9 @@ export const FilterSelect = ({ type, value, onChange }: FilterSelectI) => {
 
   return (
     <Space size="small">
-      <span className="text-[#000000a6] font-medium">{label}:</span>
+      <span className="text-slate-600 dark:text-zinc-400 font-medium transition-colors">
+        {label}:
+      </span>
       <Select
         value={value}
         onChange={onChange}
