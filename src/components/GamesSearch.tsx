@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Input from "antd/es/input/Input";
 import { SearchOutlined } from "@ant-design/icons";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useSearchQuerySelector, useSetFilter } from "@/store/useFiltersStore";
+import { useEffect } from "react";
+import { GAMES_CONSTANTS } from "@/constants/games";
 
 export const GamesSearch = () => {
   const storeSearchQuery = useSearchQuerySelector();
@@ -10,11 +12,10 @@ export const GamesSearch = () => {
 
   const [inputValue, setInputValue] = useState(storeSearchQuery);
 
-  const debouncedSearchQuery = useDebounce(inputValue, 350);
-
-  useEffect(() => {
-    setInputValue(storeSearchQuery);
-  }, [storeSearchQuery]);
+  const debouncedSearchQuery = useDebounce(
+    inputValue,
+    GAMES_CONSTANTS.DEBOUNCE_VALUE_MS,
+  );
 
   //after debounce set zustand state
   useEffect(() => {
@@ -25,7 +26,8 @@ export const GamesSearch = () => {
 
   return (
     <Input
-      value={inputValue}
+      key={storeSearchQuery}
+      defaultValue={inputValue}
       onChange={(e) => setInputValue(e.target.value)}
       placeholder="Search games..."
       prefix={

@@ -8,4 +8,5 @@ export const GAMES_CONSTANTS = {
     { value: "createdAt", label: "Created At" },
     { value: "downloadCount", label: "Downloads" },
   ],
+  DEBOUNCE_VALUE_MS: 450,
 } as const;

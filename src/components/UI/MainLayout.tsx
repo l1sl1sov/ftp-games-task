@@ -5,14 +5,18 @@ import {
   AppstoreOutlined,
   SunOutlined,
   MoonOutlined,
+  CloseOutlined,
 } from "@ant-design/icons";
 import { useThemeStore } from "@/store/useThemeStore";
 import { GamesSearch } from "@/components/GamesSearch";
 import { ScrollToTopBtn } from "@/components/ScrollToTopBtn";
+import { useState } from "react";
 
 export const MainLayout = () => {
   const { theme, toggleTheme } = useThemeStore();
   const isDark = theme === "dark";
+
+  const [isMobileSearchActive, setIsMobileSearchActive] = useState(false);
 
   return (
     <ConfigProvider
@@ -33,10 +37,13 @@ export const MainLayout = () => {
     >
       <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-zinc-950 font-sans text-gray-800 dark:text-zinc-200 antialiased transition-colors duration-200">
         <header className="border-b border-slate-100 dark:border-zinc-800 h-16 flex items-center w-full sticky top-0 z-50 px-0 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md">
-          <div className="w-full flex items-center justify-between gap-8 px-6 max-w-7xl mx-auto">
+          <div className="w-full flex items-center justify-between gap-8 px-6 max-w-7xl mx-auto relative h-full">
+            {/* БЛОК 1: Логотип (Скрывается на мобилках, если открыли поиск) */}
             <Link
               to="/"
-              className="flex items-center gap-2 font-black text-xl text-gray-950 dark:text-white hover:text-primary transition-colors group tracking-tighter uppercase"
+              className={`items-center gap-2 font-black text-xl text-gray-950 dark:text-white hover:text-primary transition-colors group tracking-tighter uppercase ${
+                isMobileSearchActive ? "hidden md:flex" : "flex"
+              }`}
             >
               <AppstoreOutlined className="text-xl text-primary group-hover:rotate-6 transition-transform normal-case" />
               <span>
@@ -44,16 +51,44 @@ export const MainLayout = () => {
               </span>
             </Link>
 
-            <div className="flex-1 max-w-md hidden md:block">
-              <GamesSearch />
+            {/* БЛОК 2: Поиск (На десктопе он в потоке, на мобилке при клике на лупу встает на всю ширину шапки) */}
+            <div
+              className={`transition-all duration-200 ${
+                isMobileSearchActive
+                  ? "flex flex-1 absolute inset-x-0 mx-6 bg-white dark:bg-zinc-900 z-10 items-center gap-2"
+                  : "hidden md:block flex-1 max-w-md"
+              }`}
+            >
+              <div className="flex-1">
+                <GamesSearch />
+              </div>
+
+              {/* Кнопка крестика для закрытия мобильного поиска */}
+              <button
+                type="button"
+                onClick={() => setIsMobileSearchActive(false)}
+                className="md:hidden flex items-center justify-center p-2 text-slate-500 hover:text-primary transition-colors"
+                aria-label="Close search"
+              >
+                <CloseOutlined className="text-xl" />
+              </button>
             </div>
 
-            <div className="flex items-center gap-4">
-              <button className="md:hidden flex items-center justify-center p-2 text-slate-600 dark:text-zinc-400 hover:text-primary transition-colors">
+            {/* БЛОК 3: Правые экшены (Скрываются на мобилках, если открыли поиск) */}
+            <div
+              className={`items-center gap-4 ${isMobileSearchActive ? "hidden md:flex" : "flex"}`}
+            >
+              {/* Кнопка лупы для перехода в режим мобильного поиска */}
+              <button
+                type="button"
+                onClick={() => setIsMobileSearchActive(true)}
+                className="md:hidden flex items-center justify-center p-2 text-slate-600 dark:text-zinc-400 hover:text-primary transition-colors"
+                aria-label="Open search"
+              >
                 <SearchOutlined className="text-xl" />
               </button>
 
-              {/* theme toggler button */}
+              {/* Кнопка смены темы */}
               <button
                 onClick={toggleTheme}
                 aria-label="Toggle theme"
@@ -66,7 +101,6 @@ export const MainLayout = () => {
                       : "translate-x-0 bg-white"
                   } pointer-events-none relative block h-7 w-7 rounded-full shadow-sm ring-0 transition-transform duration-200 ease-in-out`}
                 >
-                  {/* sun icon*/}
                   <span
                     className={`${
                       isDark
@@ -76,8 +110,6 @@ export const MainLayout = () => {
                   >
                     <SunOutlined />
                   </span>
-
-                  {/* moon icon */}
                   <span
                     className={`${
                       isDark
