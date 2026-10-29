@@ -8,6 +8,7 @@ import {
 } from "@ant-design/icons";
 import { useThemeStore } from "@/store/useThemeStore";
 import { GamesSearch } from "@/components/GamesSearch";
+import { ScrollToTopBtn } from "@/components/ScrollToTopBtn";
 
 export const MainLayout = () => {
   const { theme, toggleTheme } = useThemeStore();
@@ -192,6 +193,7 @@ export const MainLayout = () => {
             </div>
           </div>
         </footer>
+        <ScrollToTopBtn />
       </div>
     </ConfigProvider>
   );

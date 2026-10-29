@@ -2,7 +2,7 @@ import { Empty } from "antd";
 import { LoadingSpin } from "@/components/UI/LoadingSpin";
 import { usePageSelector, useSetFilter } from "@/store/useFiltersStore";
 import { Pagination } from "antd";
-import { GameCard } from "./GameCard";
+import { GameCard } from "@/components/UI/GameCard";
 import type { GameView } from "@/types/games";
 import { useActiveGamesStream } from "@/hooks/useActiveGamesStream";
 
