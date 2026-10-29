@@ -1,4 +1,4 @@
-import { Input, ConfigProvider, theme as antTheme } from "antd";
+import { ConfigProvider, theme as antTheme } from "antd";
 import { Outlet, Link } from "react-router";
 import {
   SearchOutlined,
@@ -7,6 +7,7 @@ import {
   MoonOutlined,
 } from "@ant-design/icons";
 import { useThemeStore } from "@/store/useThemeStore";
+import { GamesSearch } from "@/components/GamesSearch";
 
 export const MainLayout = () => {
   const { theme, toggleTheme } = useThemeStore();
@@ -43,14 +44,7 @@ export const MainLayout = () => {
             </Link>
 
             <div className="flex-1 max-w-md hidden md:block">
-              <Input
-                placeholder="Search games..."
-                prefix={
-                  <SearchOutlined className="text-slate-400 group-focus-within:text-primary transition-colors" />
-                }
-                variant="filled"
-                className="bg-slate-100 dark:bg-zinc-800 border border-transparent hover:border-slate-200 dark:hover:border-zinc-700 focus:border-primary focus:bg-white dark:focus:bg-zinc-900 transition-all rounded-lg py-1.5"
-              />
+              <GamesSearch />
             </div>
 
             <div className="flex items-center gap-4">

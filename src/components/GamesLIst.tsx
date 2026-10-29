@@ -1,10 +1,10 @@
-import { useFetchGames } from "@/hooks/useFetchGames";
 import { Empty } from "antd";
 import { LoadingSpin } from "@/components/UI/LoadingSpin";
 import { usePageSelector, useSetFilter } from "@/store/useFiltersStore";
 import { Pagination } from "antd";
 import { GameCard } from "./GameCard";
 import type { GameView } from "@/types/games";
+import { useActiveGamesStream } from "@/hooks/useActiveGamesStream";
 
 const dateFormatter = new Intl.DateTimeFormat("ru-RU");
 
@@ -24,7 +24,7 @@ export const GamesList = () => {
     totalGames,
     pageSize,
     isFetchingAllGames,
-  } = useFetchGames();
+  } = useActiveGamesStream();
 
   if (isLoadingAllGames) {
     return <LoadingSpin desc="games" />;

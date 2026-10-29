@@ -3,20 +3,27 @@ import { persist } from "zustand/middleware";
 import type { GameFilters } from "@/types/games";
 import { GAMES_CONSTANTS } from "@/constants/games";
 
+export interface AllAppFilters extends GameFilters {
+  q?: string;
+  searchPage?: number;
+}
+
 interface FilterStoreI {
-  filters: GameFilters;
-  setFilter: <K extends keyof GameFilters>(
+  filters: AllAppFilters;
+  setFilter: <K extends keyof AllAppFilters>(
     key: K,
-    value: GameFilters[K],
+    value: AllAppFilters[K],
   ) => void;
   resetFilters: () => void;
 }
 
-const initialFilters: GameFilters = {
+const initialFilters: AllAppFilters = {
   page: 1,
   pageSize: GAMES_CONSTANTS.PAGE_SIZE,
   sort: "stars",
   order: "desc",
+  q: "",
+  searchPage: 1,
 };
 
 export const useFiltersStore = create<FilterStoreI>()(
@@ -31,17 +38,20 @@ export const useFiltersStore = create<FilterStoreI>()(
             "pageSize",
             "sort",
             "order",
+            "searchPage",
           ].includes(key as string);
 
           const newFilters = {
             ...state.filters,
             [key]: value,
-            ...(isResetPageRequired ? { page: 1 } : {}),
+            ...(isResetPageRequired ? { page: 1, searchPage: 1 } : {}),
           };
 
           if (
             (value === undefined || value === null || value === "") &&
-            !["page", "pageSize", "sort", "order"].includes(key as string)
+            !["page", "pageSize", "sort", "order", "searchPage"].includes(
+              key as string,
+            )
           ) {
             delete newFilters[key];
           }
@@ -60,10 +70,10 @@ export const useFiltersStore = create<FilterStoreI>()(
 export const useGameFilters = () => useFiltersStore((state) => state.filters);
 export const usePageSelector = () =>
   useFiltersStore((state) => state.filters.page);
-export const usePageSizeSelector = () =>
-  useFiltersStore((state) => state.filters.pageSize);
-export const useSortSelector = () =>
-  useFiltersStore((state) => state.filters.sort);
+export const useSearchPageSelector = () =>
+  useFiltersStore((state) => state.filters.searchPage || 1);
+export const useSearchQuerySelector = () =>
+  useFiltersStore((state) => state.filters.q || "");
 export const useSetFilter = () => useFiltersStore((state) => state.setFilter);
 export const useResetFilters = () =>
   useFiltersStore((state) => state.resetFilters);

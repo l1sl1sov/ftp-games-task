@@ -77,3 +77,9 @@ export interface GameFilters {
   genre?: string;
   language?: string;
 }
+
+//for search
+export interface AllAppFilters extends GameFilters {
+  q?: string;
+  searchPage?: number;
+}

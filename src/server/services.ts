@@ -1,17 +1,21 @@
 import { api } from "@/server/base";
 import type { Slug } from "@/types/games";
 import type { GameFilters } from "@/types/games";
+import { buildQueryParams } from "@/utils/buildQueryParams";
 
 export const getGamesService = async (filters: GameFilters) => {
-  const params = new URLSearchParams();
-
-  Object.entries(filters).forEach(([key, value]) => {
-    if (value !== undefined && value !== null && value !== "") {
-      params.append(key, String(value));
-    }
-  });
-
+  const params = buildQueryParams(filters);
   const response = await api.get(`games?${params.toString()}`);
+  return response.data;
+};
+
+export const getGameSearchService = async (searchParams: {
+  q: string;
+  page: number;
+  pageSize: number;
+}) => {
+  const params = buildQueryParams(searchParams);
+  const response = await api.get(`search?${params.toString()}`);
   return response.data;
 };
 
