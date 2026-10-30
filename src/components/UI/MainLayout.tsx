@@ -16,6 +16,7 @@ export const MainLayout = () => {
   const { theme, toggleTheme } = useThemeStore();
   const isDark = theme === "dark";
 
+  //for showing or not showing serach modal for mobiles
   const [isMobileSearchActive, setIsMobileSearchActive] = useState(false);
 
   return (
@@ -38,7 +39,6 @@ export const MainLayout = () => {
       <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-zinc-950 font-sans text-gray-800 dark:text-zinc-200 antialiased transition-colors duration-200">
         <header className="border-b border-slate-100 dark:border-zinc-800 h-16 flex items-center w-full sticky top-0 z-50 px-0 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md">
           <div className="w-full flex items-center justify-between gap-8 px-6 max-w-7xl mx-auto relative h-full">
-            {/* БЛОК 1: Логотип (Скрывается на мобилках, если открыли поиск) */}
             <Link
               to="/"
               className={`items-center gap-2 font-black text-xl text-gray-950 dark:text-white hover:text-primary transition-colors group tracking-tighter uppercase ${
@@ -51,7 +51,6 @@ export const MainLayout = () => {
               </span>
             </Link>
 
-            {/* БЛОК 2: Поиск (На десктопе он в потоке, на мобилке при клике на лупу встает на всю ширину шапки) */}
             <div
               className={`transition-all duration-200 ${
                 isMobileSearchActive
@@ -63,7 +62,6 @@ export const MainLayout = () => {
                 <GamesSearch />
               </div>
 
-              {/* Кнопка крестика для закрытия мобильного поиска */}
               <button
                 type="button"
                 onClick={() => setIsMobileSearchActive(false)}
@@ -74,11 +72,9 @@ export const MainLayout = () => {
               </button>
             </div>
 
-            {/* БЛОК 3: Правые экшены (Скрываются на мобилках, если открыли поиск) */}
             <div
               className={`items-center gap-4 ${isMobileSearchActive ? "hidden md:flex" : "flex"}`}
             >
-              {/* Кнопка лупы для перехода в режим мобильного поиска */}
               <button
                 type="button"
                 onClick={() => setIsMobileSearchActive(true)}
@@ -88,7 +84,6 @@ export const MainLayout = () => {
                 <SearchOutlined className="text-xl" />
               </button>
 
-              {/* Кнопка смены темы */}
               <button
                 onClick={toggleTheme}
                 aria-label="Toggle theme"

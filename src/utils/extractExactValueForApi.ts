@@ -1,3 +1,4 @@
+//for extracting from api-responce data with no any extra hum
 export const extractExactValueForApi = (
   slug: string,
   title: string,
