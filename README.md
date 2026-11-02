@@ -1,75 +1,47 @@
-# React + TypeScript + Vite
+## 🚀 Local Development Setup Guide
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is built using **React 19**, **Vite**, **TypeScript**, **Tailwind CSS v4**, and **TanStack Query v5**. **Zustand** is used for global state management.
 
-Currently, two official plugins are available:
+### Prerequisites
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Make sure you have **Node.js** installed (v18.x or higher is recommended) along with **npm** (or _yarn_ / _pnpm_).
 
-## React Compiler
+### 🛠 Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**1. Clone the repository:**
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+git clone <YOUR_REPOSITORY_URL>
+cd ftp-games
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+**2. Install the project dependencies:**
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
 ```
+
+_(This will install all necessary packages, including Ant Design and TanStack Query)._
+
+**3. Start the Vite development server:**
+
+```bash
+npm run dev
+```
+
+**4. Open the application:**
+Once the server starts, click the local link generated in your terminal (usually `http://localhost:5173`):
+👉 [http://localhost:5173](http://localhost:5173)
+
+---
+
+### 📦 Available Scripts
+
+- `npm run dev` — Starts the Vite development server with hot-module replacement (HMR).
+- `npm run build` — Compiles TypeScript and builds the production-ready application inside the `/dist` directory.
+- `npm run lint` — Runs ESLint to check the codebase for syntax and code style issues.
+- `npm run preview` — Locally previews the production build before deployment.
+
+### 🔌 API Proxy Note
+
+All API requests starting with `/api` are automatically proxied via the Vite development server to the backend target specified in `vite.config.ts`. No manual CORS configuration is required for local development.
