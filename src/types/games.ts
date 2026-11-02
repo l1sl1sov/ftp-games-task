@@ -1,6 +1,7 @@
 import type { URLType } from "@/types/base";
-import type { DateType } from "@/types/base";
 import { GAMES_CONSTANTS } from "@/constants/games";
+
+type DateType = Date | string | number;
 
 export type Slug = string;
 

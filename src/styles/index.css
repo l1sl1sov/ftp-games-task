@@ -34,7 +34,6 @@ body {
   @apply bg-slate-50 text-slate-900;
 }
 
-//custom scrollbar
 html {
   scrollbar-width: thin;
   scrollbar-color: var(--color-primary) var(--color-primary-glow);
@@ -53,7 +52,6 @@ html {
   background-color: var(--color-primary-hover);
 }
 
-//theme global styles
 html.dark body {
   @apply bg-zinc-950 text-zinc-50;
 }
